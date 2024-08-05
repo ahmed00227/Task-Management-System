@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TeamRequest extends FormRequest
@@ -11,7 +12,7 @@ class TeamRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,7 @@ class TeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'team_name'=>['required', new NameRule]
         ];
     }
 }

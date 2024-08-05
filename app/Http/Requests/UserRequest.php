@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -11,7 +12,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,25 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', new NameRule],
+            'email' => 'required|email|unique:App\Models\User',
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required|min:8',
+            'profile_pic' => 'nullable|mimes:png,jpg,jpeg,webp,gif'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Username is required.',
+            'email.required' => 'Email Address is required.',
+            'email.email' => 'Invalid Email Address.',
+            'password.required' => 'Password field cannot be empty',
+            'password.min' => 'Password must contain atleast 8 characters',
+            'password.confirmed' => 'Password must match confirm password.',
+            'profile_pic.mimes'=>'File format not supported.',
+            'email.unique'=>'Email already associated with an account.'
         ];
     }
 }

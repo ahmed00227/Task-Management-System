@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->unsignedTinyInteger('current_status');
+            $table->unsignedTinyInteger('current_status')->default(0);
             $table->timestamp('dead_line');
             $table->foreignId('team_id')->references('id')->on('teams');
             $table->timestamps();
